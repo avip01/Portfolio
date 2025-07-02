@@ -5,7 +5,16 @@ const Hero: React.FC = () => {
   const scrollToSection = (id: string) => {
     const element = document.getElementById(id);
     if (element) {
-      element.scrollIntoView({ behavior: 'smooth' });
+      let offset = 0;
+      if (id === 'projects') {
+        // Position the projects title about 25px from the top
+        offset = -15;
+      }
+      const elementPosition = element.offsetTop + offset;
+      window.scrollTo({
+        top: elementPosition,
+        behavior: 'smooth'
+      });
     }
   };
 
@@ -17,8 +26,20 @@ const Hero: React.FC = () => {
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
-            className="fade-in"
+            className="fade-in text-center"
           >
+            {/* Circular Photo Placeholder */}
+            <motion.div
+              initial={{ opacity: 0, scale: 0.8 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.8, delay: 0.1 }}
+              className="mb-8 flex justify-center"
+            >
+              <div className="w-64 h-64 bg-card border-2 border-pink-100 rounded-full flex items-center justify-center shadow-sm">
+                <span className="text-6xl font-medium text-secondary">AP</span>
+              </div>
+            </motion.div>
+            
             <h1 className="heading-xl mb-6">Avi Patel</h1>
             
             <motion.p
@@ -46,10 +67,16 @@ const Hero: React.FC = () => {
               className="btn-group fade-in-delay-3"
             >
               <button
-                onClick={() => scrollToSection('projects')}
+                onClick={() => scrollToSection('experience')}
                 className="btn btn-primary"
               >
-                View Projects
+                Experience
+              </button>
+              <button
+                onClick={() => scrollToSection('projects')}
+                className="btn btn-outline"
+              >
+                Projects
               </button>
               <button
                 onClick={() => scrollToSection('contact')}

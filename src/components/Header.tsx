@@ -8,11 +8,9 @@ const Header: React.FC = () => {
   const { theme, toggleTheme } = useTheme();
 
   const navigationItems = [
-    { name: 'Home', href: '#home' },
-    { name: 'About', href: '#about' },
+    { name: 'Experience', href: '#experience' },
     { name: 'Projects', href: '#projects' },
-    { name: 'Skills', href: '#skills' },
-    { name: 'Contact', href: '#contact' },
+    { name: 'Contact Me', href: '#contact' },
   ];
 
   useEffect(() => {
@@ -43,7 +41,7 @@ const Header: React.FC = () => {
             animate={{ opacity: 1, x: 0 }}
             className="text-xl font-bold text-primary justify-self-start"
           >
-            [Your Name]
+            Avi Patel
           </motion.div>
 
           {/* Center - Navigation */}

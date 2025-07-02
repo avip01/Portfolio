@@ -4,7 +4,7 @@ import { ShoppingBag, Palette, Store, Package, ChevronRight } from 'lucide-react
 
 const Experience: React.FC = () => {
   const [activeView, setActiveView] = useState('overview');
-  const [timeElapsed, setTimeElapsed] = useState({ days: 0, hours: 0, seconds: 0 });
+  const [timeElapsed, setTimeElapsed] = useState({ days: 0, hours: 0, minutes: 0, seconds: 0 });
 
   // Calculate time elapsed since December 31st, 2024
   useEffect(() => {
@@ -16,9 +16,10 @@ const Experience: React.FC = () => {
       
       const days = Math.floor(diff / (1000 * 60 * 60 * 24));
       const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+      const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
       const seconds = Math.floor((diff % (1000 * 60)) / 1000);
       
-      setTimeElapsed({ days, hours, seconds });
+      setTimeElapsed({ days, hours, minutes, seconds });
     };
 
     // Update immediately
@@ -81,9 +82,9 @@ const Experience: React.FC = () => {
           {/* Compact Header */}
           <div className="text-center mb-8">
             <div className="inline-flex items-center justify-center mb-3">
-              <ShoppingBag className="w-5 h-5 text-green-600 mr-2" />
-              <h3 className="text-xl font-semibold text-green-900">Banali™</h3>
-              <span className="ml-2 text-sm text-green-700">Wellness Supplement Brand</span>
+              <ShoppingBag className="w-5 h-5 text-pink-400 mr-2" />
+              <h3 className="text-xl font-semibold text-primary">Banali™</h3>
+              <span className="ml-2 text-sm text-secondary">Wellness Supplement Brand</span>
             </div>
             <p className="text-secondary text-sm max-w-xl mx-auto">
               Built a wellness supplement brand from the ground up—handling design, development, and business operations.
@@ -91,7 +92,7 @@ const Experience: React.FC = () => {
           </div>
 
           {/* Compact Navigation */}
-          <div className="grid grid-cols-4 gap-4 mb-8 max-w-4xl mx-auto">
+          <div className="experience-nav grid grid-cols-2 gap-4 mb-8 max-w-3xl mx-auto">
             {banaliAspects.map((aspect, index) => (
               <motion.button
                 key={aspect.id}
@@ -100,20 +101,20 @@ const Experience: React.FC = () => {
                 transition={{ duration: 0.2, delay: index * 0.03 }}
                 viewport={{ once: true }}
                 onClick={() => setActiveView(aspect.id)}
-                className={`p-4 rounded-lg border transition-all duration-200 text-center cursor-pointer text-sm
+                className={`experience-nav-button py-8 px-4 rounded-lg border transition-all duration-200 text-center cursor-pointer text-sm
                            ${activeView === aspect.id 
-                             ? 'bg-green-50 border-green-200 shadow-sm' 
-                             : 'bg-card border-light hover:shadow-sm hover:bg-green-50'
+                             ? 'bg-pink-25 border-pink-100 shadow-sm' 
+                             : 'bg-card border-light hover:shadow-sm hover:bg-pink-25'
                            }`}
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}
               >
                 <div className="flex flex-col items-center">
-                  <aspect.icon className={`w-4 h-4 mb-2 ${activeView === aspect.id ? 'text-green-600' : 'text-primary'}`} />
-                  <h4 className={`font-medium text-xs mb-1 ${activeView === aspect.id ? 'text-green-900' : 'text-primary'}`}>
+                  <aspect.icon className={`w-4 h-4 mb-2 ${activeView === aspect.id ? 'text-pink-400' : 'text-primary'}`} />
+                  <h4 className={`font-medium text-xs mb-1 ${activeView === aspect.id ? 'text-primary' : 'text-primary'}`}>
                     {aspect.title}
                   </h4>
-                  <p className={`text-xs leading-tight ${activeView === aspect.id ? 'text-green-700' : 'text-muted'}`}>
+                  <p className={`text-xs leading-tight ${activeView === aspect.id ? 'text-secondary' : 'text-muted'}`}>
                     {aspect.description}
                   </p>
                 </div>
@@ -135,7 +136,7 @@ const Experience: React.FC = () => {
                 {/* Content */}
                 <div className="lg:col-span-2">
                   <div className="flex items-center mb-4">
-                    <currentAspect.icon className="w-5 h-5 text-green-600 mr-2" />
+                    <currentAspect.icon className="w-5 h-5 text-pink-400 mr-2" />
                     <h4 className="text-lg font-medium text-primary">{currentAspect.title}</h4>
                   </div>
                   
@@ -154,7 +155,7 @@ const Experience: React.FC = () => {
                           transition={{ duration: 0.15, delay: index * 0.05 }}
                           className="flex items-center text-sm"
                         >
-                          <ChevronRight className="w-3 h-3 text-green-500 mr-2 flex-shrink-0" />
+                          <ChevronRight className="w-3 h-3 text-pink-400 mr-2 flex-shrink-0" />
                           <span className="text-secondary">{highlight}</span>
                         </motion.div>
                       ))}
@@ -164,24 +165,28 @@ const Experience: React.FC = () => {
 
                 {/* Live Stopwatch */}
                 <div className="flex justify-center">
-                  <div className="bg-green-50 border border-green-200 rounded-lg p-4 w-full text-center">
-                    <h5 className="text-sm font-medium text-green-900 mb-3 text-center">Time Since Launch</h5>
-                    <div className="text-xs text-green-600 mb-2">Started Dec 31, 2024</div>
-                    <div className="grid grid-cols-3 gap-4 text-center">
-                      <div>
-                        <div className="text-lg font-bold text-green-700 font-mono">{timeElapsed.days}</div>
-                        <div className="text-xs text-green-600">Days</div>
+                  <div className="bg-pink-25 border border-pink-100 rounded-lg px-4 w-full text-center" style={{ paddingTop: '33px', paddingBottom: '17px' }}>
+                                          <h5 className="text-sm font-bold text-primary mb-6 text-center">Time Since Launch</h5>
+                      <div className="text-xs text-secondary mb-6">Started Dec 31, 2024</div>
+                    <div className="flex items-center justify-center text-center" style={{ gap: '125px' }}>
+                      <div className="flex items-center gap-2">
+                        <span className="text-lg font-bold text-primary font-mono">{timeElapsed.days}</span>
+                        <span className="text-xs text-secondary">Days</span>
                       </div>
-                      <div>
-                        <div className="text-lg font-bold text-green-700 font-mono">{timeElapsed.hours}</div>
-                        <div className="text-xs text-green-600">Hours</div>
+                      <div className="flex items-center gap-2">
+                        <span className="text-lg font-bold text-primary font-mono">{timeElapsed.hours}</span>
+                        <span className="text-xs text-secondary">Hours</span>
                       </div>
-                      <div>
-                        <div className="text-lg font-bold text-green-700 font-mono">{timeElapsed.seconds}</div>
-                        <div className="text-xs text-green-600">Seconds</div>
+                      <div className="flex items-center gap-2">
+                        <span className="text-lg font-bold text-primary font-mono">{timeElapsed.minutes}</span>
+                        <span className="text-xs text-secondary">Minutes</span>
+                      </div>
+                      <div className="flex items-center gap-2">
+                        <span className="text-lg font-bold text-primary font-mono">{timeElapsed.seconds}</span>
+                        <span className="text-xs text-secondary">Seconds</span>
                       </div>
                     </div>
-                    <div className="text-xs text-green-500 mt-2">● Live</div>
+                    <div className="text-xs text-pink-400" style={{ marginTop: '29px' }}>● Live</div>
                   </div>
                 </div>
               </div>
