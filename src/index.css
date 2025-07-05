@@ -1,37 +1,332 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
 
-/* CSS Variables for Minimal Theme */
+/* Modern Space Theme Background */
+.space-background {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+  background: radial-gradient(ellipse at center, #0a0a0f 0%, #050507 40%, #000000 100%);
+  overflow: hidden;
+}
+
+/* Cosmic base layer */
+.space-background::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(circle at 20% 20%, rgba(30, 58, 138, 0.03) 0%, transparent 50%),
+              radial-gradient(circle at 80% 60%, rgba(37, 99, 235, 0.02) 0%, transparent 40%),
+              radial-gradient(circle at 60% 80%, rgba(15, 23, 42, 0.04) 0%, transparent 60%);
+}
+
+/* Stars with natural variation */
+.stars {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+}
+
+.star {
+  position: absolute;
+  background: rgba(255, 255, 255, 1);
+  border-radius: 50%;
+}
+
+.star.small {
+  width: 1px;
+  height: 1px;
+  animation: brightnessTwinkle 4s ease-in-out infinite;
+}
+
+.star.medium {
+  width: 2px;
+  height: 2px;
+  animation: brightnessTwinkle 6s ease-in-out infinite;
+  box-shadow: 0 0 2px rgba(255, 255, 255, 0.4);
+}
+
+.star.large {
+  width: 3px;
+  height: 3px;
+  animation: brightnessTwinkle 5s ease-in-out infinite;
+  box-shadow: 0 0 4px rgba(255, 255, 255, 0.6), 0 0 8px rgba(255, 255, 255, 0.3);
+}
+
+@keyframes brightnessTwinkle {
+  0%, 100% { opacity: 0.4; }
+  25% { opacity: 0.7; }
+  50% { opacity: 1; }
+  75% { opacity: 0.6; }
+}
+
+/* Curved comet paths */
+/* Bright glowing comet head */
+.comet {
+  position: absolute;
+  width: 4px;
+  height: 4px;
+  background: radial-gradient(circle, 
+    rgba(255, 255, 255, 1) 0%, 
+    rgba(255, 255, 255, 0.9) 25%, 
+    rgba(220, 235, 255, 0.8) 50%, 
+    rgba(150, 190, 255, 0.6) 75%, 
+    transparent 100%);
+  border-radius: 50%;
+  box-shadow: 
+    0 0 8px rgba(255, 255, 255, 0.9),
+    0 0 16px rgba(255, 255, 255, 0.6),
+    0 0 24px rgba(150, 190, 255, 0.4);
+  animation: naturalFlicker 0.4s ease-in-out infinite alternate;
+}
+
+/* Dynamic tail that stretches and dissipates naturally */
+.comet::before {
+  content: '';
+  position: absolute;
+  width: 30px;
+  height: 3px;
+  background: linear-gradient(90deg, 
+    rgba(255, 255, 255, 0.9) 0%,
+    rgba(255, 255, 255, 0.8) 10%,
+    rgba(230, 240, 255, 0.7) 20%,
+    rgba(200, 220, 255, 0.6) 30%,
+    rgba(170, 200, 255, 0.5) 40%,
+    rgba(140, 180, 255, 0.4) 50%,
+    rgba(110, 160, 255, 0.3) 60%,
+    rgba(80, 140, 255, 0.2) 70%,
+    rgba(60, 120, 255, 0.1) 80%,
+    rgba(40, 100, 255, 0.05) 90%,
+    transparent 100%);
+  top: 50%;
+  right: 4px;
+  transform: translateY(-50%);
+  border-radius: 2px 0 0 2px;
+  filter: blur(0.8px);
+  animation: trailStretch 8s linear infinite;
+}
+
+/* Subtle flicker for realism */
+@keyframes naturalFlicker {
+  0% { 
+    opacity: 0.9;
+    box-shadow: 
+      0 0 8px rgba(255, 255, 255, 0.9),
+      0 0 16px rgba(255, 255, 255, 0.6),
+      0 0 24px rgba(150, 190, 255, 0.4);
+  }
+  100% { 
+    opacity: 1;
+    box-shadow: 
+      0 0 10px rgba(255, 255, 255, 1),
+      0 0 20px rgba(255, 255, 255, 0.7),
+      0 0 30px rgba(150, 190, 255, 0.5);
+  }
+}
+
+/* Trail that grows progressively longer and fainter */
+@keyframes trailStretch {
+  0% { 
+    width: 30px; 
+    opacity: 0.3;
+  }
+  25% { 
+    width: 120px; 
+    opacity: 0.8;
+  }
+  50% { 
+    width: 220px; 
+    opacity: 1;
+  }
+  75% { 
+    width: 320px; 
+    opacity: 0.6;
+  }
+  100% { 
+    width: 400px; 
+    opacity: 0.2;
+  }
+}
+
+/* Consistent speed curved trajectories */
+.comet.leftToRight {
+  animation: leftToRightArc 8s linear infinite;
+}
+
+.comet.rightToLeft {
+  animation: rightToLeftArc 8s linear infinite;
+}
+
+/* Left to right with subtle curve */
+@keyframes leftToRightArc {
+  0% { 
+    left: -5%; 
+    transform: rotate(15deg);
+    opacity: 0;
+    filter: blur(1px);
+  }
+  5% { 
+    opacity: 1;
+    filter: blur(0.3px);
+  }
+  25% { 
+    transform: rotate(18deg);
+  }
+  50% { 
+    transform: rotate(22deg);
+  }
+  75% { 
+    transform: rotate(25deg);
+  }
+  95% { 
+    opacity: 1;
+    filter: blur(0.3px);
+  }
+  100% { 
+    left: 105%; 
+    transform: rotate(28deg);
+    opacity: 0;
+    filter: blur(1px);
+  }
+}
+
+/* Right to left with subtle curve */
+@keyframes rightToLeftArc {
+  0% { 
+    left: 105%; 
+    transform: rotate(-165deg);
+    opacity: 0;
+    filter: blur(1px);
+  }
+  5% { 
+    opacity: 1;
+    filter: blur(0.3px);
+  }
+  25% { 
+    transform: rotate(-162deg);
+  }
+  50% { 
+    transform: rotate(-158deg);
+  }
+  75% { 
+    transform: rotate(-155deg);
+  }
+  95% { 
+    opacity: 1;
+    filter: blur(0.3px);
+  }
+  100% { 
+    left: -5%; 
+    transform: rotate(-152deg);
+    opacity: 0;
+    filter: blur(1px);
+  }
+}
+
+/* High-resolution nebulas */
+.nebula {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(3px);
+  animation: drift 40s ease-in-out infinite;
+}
+
+.nebula.type1 {
+  background: radial-gradient(ellipse 300px 180px at center, 
+              rgba(30, 58, 138, 0.04) 0%, 
+              rgba(37, 99, 235, 0.02) 30%, 
+              rgba(59, 130, 246, 0.01) 60%, 
+              transparent 80%);
+  width: 400px;
+  height: 240px;
+}
+
+.nebula.type2 {
+  background: radial-gradient(ellipse 250px 150px at center,
+              rgba(15, 23, 42, 0.06) 0%,
+              rgba(30, 41, 59, 0.03) 40%,
+              rgba(51, 65, 85, 0.015) 70%,
+              transparent 85%);
+  width: 350px;
+  height: 200px;
+}
+
+.nebula.type3 {
+  background: radial-gradient(ellipse 200px 120px at center,
+              rgba(37, 99, 235, 0.03) 0%,
+              rgba(59, 130, 246, 0.015) 50%,
+              transparent 75%);
+  width: 280px;
+  height: 160px;
+}
+
+@keyframes drift {
+  0%, 100% { transform: translate(0, 0) scale(1) rotate(0deg); opacity: 0.6; }
+  25% { transform: translate(20px, -15px) scale(1.05) rotate(2deg); opacity: 0.8; }
+  50% { transform: translate(-10px, 25px) scale(0.95) rotate(-1deg); opacity: 0.7; }
+  75% { transform: translate(15px, 10px) scale(1.02) rotate(1deg); opacity: 0.9; }
+}
+
+/* Cosmic dust particles */
+.cosmic-dust {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+}
+
+.dust-particle {
+  position: absolute;
+  width: 0.5px;
+  height: 0.5px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 50%;
+  animation: dustFloat 25s linear infinite;
+}
+
+@keyframes dustFloat {
+  0% { transform: translateY(100vh) translateX(0px); opacity: 0; }
+  10% { opacity: 0.3; }
+  90% { opacity: 0.1; }
+  100% { transform: translateY(-20px) translateX(50px); opacity: 0; }
+}
+
+/* CSS Variables for Modern Space Theme */
 :root {
-  /* Minimal Color Palette */
-  --primary-600: #1E293B;
-  --primary-700: #0F172A;
-  --accent-blue: #3B82F6;
+  /* Space Color Palette - Navy/Blue tones only */
+  --primary-600: #3b82f6;
+  --primary-700: #1d4ed8;
+  --accent-blue: #60a5fa;
   --accent-beige: #F3F0E7;
   
-  /* Backgrounds */
-  --bg-primary: #FAFAFB;
-  --bg-secondary: #F8F9FA;
-  --bg-card: #FFFFFF;
+  /* Backgrounds with transparency for seamless space theme */
+  --bg-primary: transparent;
+  --bg-secondary: rgba(255, 255, 255, 0.02);
+  --bg-card: rgba(255, 255, 255, 0.06);
   
-  /* Text Colors */
-  --text-primary: #1E293B;
-  --text-secondary: #64748B;
-  --text-muted: #94A3B8;
+  /* Text Colors optimized for space background */
+  --text-primary: #f8fafc;
+  --text-secondary: #cbd5e1;
+  --text-muted: #94a3b8;
   
-  /* Borders */
-  --border-light: #E2E8F0;
-  --border-muted: #F1F5F9;
+  /* Borders with subtle transparency */
+  --border-light: rgba(255, 255, 255, 0.08);
+  --border-muted: rgba(255, 255, 255, 0.04);
 }
 
 .dark {
-  --bg-primary: #0F172A;
-  --bg-secondary: #1E293B;
-  --bg-card: #334155;
-  --text-primary: #F8FAFC;
-  --text-secondary: #CBD5E1;
-  --text-muted: #94A3B8;
-  --border-light: #334155;
-  --border-muted: #475569;
+  --bg-primary: transparent;
+  --bg-secondary: rgba(255, 255, 255, 0.03);
+  --bg-card: rgba(255, 255, 255, 0.08);
+  --text-primary: #f8fafc;
+  --text-secondary: #cbd5e1;
+  --text-muted: #94a3b8;
+  --border-light: rgba(255, 255, 255, 0.1);
+  --border-muted: rgba(255, 255, 255, 0.05);
 }
 
 /* Reset & Base Styles */
@@ -274,14 +569,14 @@ body {
   }
 }
 
-/* Hero Section */
+/* Hero Section - Seamless with space background */
 .hero {
   min-height: 100vh;
   display: flex;
   align-items: center;
   justify-content: center;
   position: relative;
-  background: linear-gradient(135deg, var(--bg-primary) 0%, var(--bg-secondary) 100%);
+  background: transparent;
 }
 
 .hero-content {

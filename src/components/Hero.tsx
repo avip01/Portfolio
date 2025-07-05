@@ -8,7 +8,7 @@ const Hero: React.FC = () => {
       let offset = 0;
       if (id === 'projects') {
         // Position the projects title about 25px from the top
-        offset = -15;
+        offset = 45;
       }
       const elementPosition = element.offsetTop + offset;
       window.scrollTo({
@@ -68,7 +68,7 @@ const Hero: React.FC = () => {
             >
               <button
                 onClick={() => scrollToSection('experience')}
-                className="btn btn-primary"
+                className="btn btn-outline"
               >
                 Experience
               </button>

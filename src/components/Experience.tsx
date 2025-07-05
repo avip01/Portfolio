@@ -101,12 +101,17 @@ const Experience: React.FC = () => {
                 transition={{ duration: 0.2, delay: index * 0.03 }}
                 viewport={{ once: true }}
                 onClick={() => setActiveView(aspect.id)}
-                className={`experience-nav-button py-8 px-4 rounded-lg border transition-all duration-200 text-center cursor-pointer text-sm
+                className={`experience-nav-button py-8 px-4 rounded-lg transition-all duration-300 text-center cursor-pointer text-sm border-0 outline-0 focus:outline-none
                            ${activeView === aspect.id 
-                             ? 'bg-pink-25 border-pink-100 shadow-sm' 
-                             : 'bg-card border-light hover:shadow-sm hover:bg-pink-25'
+                             ? 'bg-pink-25' 
+                             : 'bg-card'
                            }`}
-                whileHover={{ scale: 1.02 }}
+                style={{ border: 'none', outline: 'none' }}
+                whileHover={{ 
+                  transform: "translateY(-4px)",
+                  boxShadow: "0 20px 40px -10px rgba(0, 0, 0, 0.1)",
+                  transition: { duration: 0.3 }
+                }}
                 whileTap={{ scale: 0.98 }}
               >
                 <div className="flex flex-col items-center">
@@ -169,19 +174,19 @@ const Experience: React.FC = () => {
                                           <h5 className="text-sm font-bold text-primary mb-6 text-center">Time Since Launch</h5>
                       <div className="text-xs text-secondary mb-6">Started Dec 31, 2024</div>
                     <div className="flex items-center justify-center text-center" style={{ gap: '125px' }}>
-                      <div className="flex items-center gap-2">
+                      <div className="flex items-center" style={{ gap: '6px' }}>
                         <span className="text-lg font-bold text-primary font-mono">{timeElapsed.days}</span>
                         <span className="text-xs text-secondary">Days</span>
                       </div>
-                      <div className="flex items-center gap-2">
+                      <div className="flex items-center" style={{ gap: '6px' }}>
                         <span className="text-lg font-bold text-primary font-mono">{timeElapsed.hours}</span>
                         <span className="text-xs text-secondary">Hours</span>
                       </div>
-                      <div className="flex items-center gap-2">
+                      <div className="flex items-center" style={{ gap: '6px' }}>
                         <span className="text-lg font-bold text-primary font-mono">{timeElapsed.minutes}</span>
                         <span className="text-xs text-secondary">Minutes</span>
                       </div>
-                      <div className="flex items-center gap-2">
+                      <div className="flex items-center" style={{ gap: '6px' }}>
                         <span className="text-lg font-bold text-primary font-mono">{timeElapsed.seconds}</span>
                         <span className="text-xs text-secondary">Seconds</span>
                       </div>

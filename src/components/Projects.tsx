@@ -1,12 +1,19 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-import { ExternalLink, Github } from 'lucide-react';
+import { ExternalLink, Github, ChevronLeft, ChevronRight } from 'lucide-react';
 
 const Projects: React.FC = () => {
+  const [currentImageIndex, setCurrentImageIndex] = useState<{ [key: number]: number }>({});
+
   const projects = [
     {
       title: 'TravelBuddy',
       description: 'A full-stack travel planning app that parses boarding passes to surface airport data, local events, and a user chat system. Designed for travelers seeking contextual recommendations during layovers or transit.',
+      images: [
+        'Project Screenshot 1',
+        'Project Screenshot 2', 
+        'Project Screenshot 3'
+      ],
       tech: ['React', 'Firebase', 'Google Maps API', 'Tailwind CSS', 'REST APIs'],
       responsibilities: [
         'Designed and implemented boarding pass parser to extract location data',
@@ -23,6 +30,11 @@ const Projects: React.FC = () => {
     {
       title: 'FarmDashboard',
       description: 'A JavaFX-based desktop dashboard designed to visualize real-time agricultural drone data, including soil quality, crop health, and animal movement patterns — built for precision farming applications.',
+      images: [
+        'Dashboard Overview',
+        'Data Visualization',
+        'Settings Panel'
+      ],
       tech: ['Java', 'JavaFX', 'XML', 'Eclipse', 'FXML', 'Team Collaboration Tools'],
       responsibilities: [
         'Built an interactive, responsive UI in Java using JavaFX and XML for real-time data display',
@@ -39,6 +51,11 @@ const Projects: React.FC = () => {
     {
       title: 'Currency Converter App',
       description: 'A Kotlin-based Android app for real-time currency conversion and trading. Built with multilingual support and integrated Google Maps to show the user\'s location relative to forex data sources.',
+      images: [
+        'Main Interface',
+        'Currency Selection',
+        'Maps Integration'
+      ],
       tech: ['Kotlin', 'Android SDK', 'REST API (ExchangeRate API)', 'Google Maps API'],
       responsibilities: [
         'Developed clean, responsive Android UI using XML and Kotlin components',
@@ -52,6 +69,18 @@ const Projects: React.FC = () => {
       ]
     },
   ];
+
+  const handlePrevImage = (projectIndex: number) => {
+    const currentIndex = currentImageIndex[projectIndex] || 0;
+    const newIndex = currentIndex === 0 ? projects[projectIndex].images.length - 1 : currentIndex - 1;
+    setCurrentImageIndex(prev => ({ ...prev, [projectIndex]: newIndex }));
+  };
+
+  const handleNextImage = (projectIndex: number) => {
+    const currentIndex = currentImageIndex[projectIndex] || 0;
+    const newIndex = currentIndex === projects[projectIndex].images.length - 1 ? 0 : currentIndex + 1;
+    setCurrentImageIndex(prev => ({ ...prev, [projectIndex]: newIndex }));
+  };
 
   return (
     <section className="section" id="projects">
@@ -74,8 +103,36 @@ const Projects: React.FC = () => {
                 viewport={{ once: true }}
                 className="project-card"
               >
-                <div className="project-image">
-                  [Project Image Placeholder]
+                {/* Image with Carousel */}
+                <div className="project-image relative">
+                  [{project.images[currentImageIndex[index] || 0]}]
+                  
+                  {/* Navigation Arrows - Only show if multiple images */}
+                  {project.images.length > 1 && (
+                    <div className="absolute flex items-center space-x-3" style={{ bottom: '12px', left: '50%', transform: 'translateX(-50%)' }}>
+                      <motion.button
+                        onClick={() => handlePrevImage(index)}
+                        className="w-8 h-8 bg-black bg-opacity-40 hover:bg-opacity-60 rounded-full flex items-center justify-center transition-all duration-200 border-0 outline-0 focus:outline-none"
+                        style={{ border: 'none', outline: 'none' }}
+                        whileHover={{ scale: 1.1 }}
+                        whileTap={{ scale: 0.95 }}
+                        aria-label="Previous image"
+                      >
+                        <ChevronLeft className="w-4 h-4 text-white" />
+                      </motion.button>
+                      
+                      <motion.button
+                        onClick={() => handleNextImage(index)}
+                        className="w-8 h-8 bg-black bg-opacity-40 hover:bg-opacity-60 rounded-full flex items-center justify-center transition-all duration-200 border-0 outline-0 focus:outline-none"
+                        style={{ border: 'none', outline: 'none' }}
+                        whileHover={{ scale: 1.1 }}
+                        whileTap={{ scale: 0.95 }}
+                        aria-label="Next image"
+                      >
+                        <ChevronRight className="w-4 h-4 text-white" />
+                      </motion.button>
+                    </div>
+                  )}
                 </div>
                 
                 <h3 className="project-title">{project.title}</h3>
