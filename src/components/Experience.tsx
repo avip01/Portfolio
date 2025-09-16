@@ -171,8 +171,8 @@ const Experience: React.FC = () => {
                 {/* Live Stopwatch */}
                 <div className="flex justify-center">
                   <div className="bg-pink-25 border border-pink-100 rounded-lg px-4 w-full text-center" style={{ paddingTop: '33px', paddingBottom: '17px' }}>
-                                          <h5 className="text-sm font-bold text-primary mb-6 text-center">Time Since Launch</h5>
-                      <div className="text-xs text-secondary mb-6">Started Dec 31, 2024</div>
+                    <h5 className="text-sm font-bold text-primary mb-6 text-center">Time Since Launch</h5>
+                    <div className="text-xs text-secondary mb-6">Started Dec 31, 2024</div>
                     <div className="flex items-center justify-center text-center" style={{ gap: '125px' }}>
                       <div className="flex items-center" style={{ gap: '6px' }}>
                         <span className="text-lg font-bold text-primary font-mono">{timeElapsed.days}</span>
@@ -191,7 +191,7 @@ const Experience: React.FC = () => {
                         <span className="text-xs text-secondary">Seconds</span>
                       </div>
                     </div>
-                    <div className="text-xs text-pink-400" style={{ marginTop: '29px' }}>● Live</div>
+                    <div className="text-xs" style={{ marginTop: '29px', color: '#fca5a5' }}>● Live</div>
                   </div>
                 </div>
               </div>

@@ -59,10 +59,10 @@
 }
 
 @keyframes brightnessTwinkle {
-  0%, 100% { opacity: 0.4; }
-  25% { opacity: 0.7; }
+  0%, 100% { opacity: 0.7; }
+  20% { opacity: 0.85; }
   50% { opacity: 1; }
-  75% { opacity: 0.6; }
+  80% { opacity: 0.8; }
 }
 
 /* Curved comet paths */
@@ -83,15 +83,31 @@
     0 0 16px rgba(255, 255, 255, 0.6),
     0 0 24px rgba(150, 190, 255, 0.4);
   animation: naturalFlicker 0.4s ease-in-out infinite alternate;
+  z-index: 2;
+  top: var(--comet-y-start, 0px);
+  left: -5%;
+  transform: rotate(var(--comet-angle, 0deg));
 }
 
-/* Dynamic tail that stretches and dissipates naturally */
-.comet::before {
-  content: '';
+/* Left-to-right comet: pivot at left edge (head), tail extends left */
+.comet.leftToRight {
+  transform-origin: 0% 50%;
+}
+
+/* Right-to-left comet: pivot at right edge (head), tail extends right */
+.comet.rightToLeft {
+  transform-origin: 100% 50%;
+}
+
+.comet-tail {
   position: absolute;
-  width: 30px;
+  top: 50%;
+  left: 0;
+  width: 400px;
   height: 3px;
-  background: linear-gradient(90deg, 
+  transform: translateY(-50%) translateX(-100%);
+  /* Gradient runs from comet head (solid) to trailing end (transparent) */
+  background: linear-gradient(270deg, 
     rgba(255, 255, 255, 0.9) 0%,
     rgba(255, 255, 255, 0.8) 10%,
     rgba(230, 240, 255, 0.7) 20%,
@@ -103,13 +119,16 @@
     rgba(60, 120, 255, 0.1) 80%,
     rgba(40, 100, 255, 0.05) 90%,
     transparent 100%);
-  top: 50%;
-  right: 4px;
-  transform: translateY(-50%);
   border-radius: 2px 0 0 2px;
   filter: blur(0.8px);
-  animation: trailStretch 8s linear infinite;
+  z-index: 1;
+  pointer-events: none;
+  animation: trailStretch 8s linear;
+  animation-fill-mode: forwards;
 }
+
+
+/* For right-to-left, keep the same tail definition but mirror via container rotation only */
 
 /* Subtle flicker for realism */
 @keyframes naturalFlicker {
@@ -155,41 +174,42 @@
 
 /* Consistent speed curved trajectories */
 .comet.leftToRight {
-  animation: leftToRightArc 8s linear infinite;
+  animation: leftToRightArc 8s linear;
 }
 
 .comet.rightToLeft {
-  animation: rightToLeftArc 8s linear infinite;
+  animation: rightToLeftArc 8s linear;
 }
 
 /* Left to right with subtle curve */
 @keyframes leftToRightArc {
-  0% { 
-    left: -5%; 
-    transform: rotate(15deg);
+  0% {
+    left: -5%;
+    top: var(--comet-y-start);
+    transform: rotate(var(--comet-angle));
     opacity: 0;
     filter: blur(1px);
   }
-  5% { 
+  5% {
     opacity: 1;
     filter: blur(0.3px);
   }
-  25% { 
-    transform: rotate(18deg);
+  25% {
+    top: calc(var(--comet-y-start) + (var(--comet-y-end) - var(--comet-y-start)) * 0.25);
+    transform: rotate(var(--comet-angle));
   }
-  50% { 
-    transform: rotate(22deg);
+  50% {
+    top: calc(var(--comet-y-start) + (var(--comet-y-end) - var(--comet-y-start)) * 0.5);
+    transform: rotate(var(--comet-angle));
   }
-  75% { 
-    transform: rotate(25deg);
+  75% {
+    top: calc(var(--comet-y-start) + (var(--comet-y-end) - var(--comet-y-start)) * 0.75);
+    transform: rotate(var(--comet-angle));
   }
-  95% { 
-    opacity: 1;
-    filter: blur(0.3px);
-  }
-  100% { 
-    left: 105%; 
-    transform: rotate(28deg);
+  100% {
+    left: 105%;
+    top: var(--comet-y-end);
+    transform: rotate(var(--comet-angle));
     opacity: 0;
     filter: blur(1px);
   }
@@ -199,7 +219,8 @@
 @keyframes rightToLeftArc {
   0% { 
     left: 105%; 
-    transform: rotate(-165deg);
+    top: var(--comet-y-start);
+    transform: rotate(var(--comet-angle));
     opacity: 0;
     filter: blur(1px);
   }
@@ -208,13 +229,16 @@
     filter: blur(0.3px);
   }
   25% { 
-    transform: rotate(-162deg);
+    top: calc(var(--comet-y-start) + (var(--comet-y-end) - var(--comet-y-start)) * 0.25);
+    transform: rotate(var(--comet-angle));
   }
   50% { 
-    transform: rotate(-158deg);
+    top: calc(var(--comet-y-start) + (var(--comet-y-end) - var(--comet-y-start)) * 0.5);
+    transform: rotate(var(--comet-angle));
   }
   75% { 
-    transform: rotate(-155deg);
+    top: calc(var(--comet-y-start) + (var(--comet-y-end) - var(--comet-y-start)) * 0.75);
+    transform: rotate(var(--comet-angle));
   }
   95% { 
     opacity: 1;
@@ -222,7 +246,8 @@
   }
   100% { 
     left: -5%; 
-    transform: rotate(-152deg);
+    top: var(--comet-y-end);
+    transform: rotate(var(--comet-angle));
     opacity: 0;
     filter: blur(1px);
   }
@@ -1649,4 +1674,28 @@ body {
   .heading-lg {
     font-size: 18pt;
   }
+  
+  .heading-md {
+    font-size: 12pt;
+  }
+  
+  .text-xl {
+    font-size: 12pt;
+  }
+  
+  .text-lg {
+    font-size: 12pt;
+  }
 } 
+
+/* Experience section – pastel pink refinements (scoped) */
+#experience .text-pink-400 { color: rgba(110, 90, 120, 0.9); }
+#experience .bg-pink-25 { background-color: rgba(110, 90, 120, 0.10); }
+#experience .bg-pink-100 { background-color: rgba(110, 90, 120, 0.16); }
+#experience .border-pink-100 { border-color: rgba(110, 90, 120, 0.35); }
+
+/* Dark theme adjustments (if active) */
+.dark #experience .text-pink-400 { color: rgba(110, 90, 120, 0.95); }
+.dark #experience .bg-pink-25 { background-color: rgba(110, 90, 120, 0.12); }
+.dark #experience .bg-pink-100 { background-color: rgba(110, 90, 120, 0.18); }
+.dark #experience .border-pink-100 { border-color: rgba(110, 90, 120, 0.40); }

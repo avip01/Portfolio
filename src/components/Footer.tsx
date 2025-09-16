@@ -36,7 +36,7 @@ const Footer: React.FC = () => {
           {/* Social Links */}
           <div className="flex items-center space-x-4">
             <motion.a
-              href="https://github.com/yourusername"
+              href="https://github.com/avip01"
               whileHover={{ scale: 1.1 }}
               className="p-2 bg-accent rounded-lg text-secondary hover:text-primary-600 transition"
               target="_blank"
@@ -45,7 +45,7 @@ const Footer: React.FC = () => {
               <Github size={18} />
             </motion.a>
             <motion.a
-              href="https://linkedin.com/in/yourusername"
+              href="https://linkedin.com/in/arpatel2004"
               whileHover={{ scale: 1.1 }}
               className="p-2 bg-accent rounded-lg text-secondary hover:text-primary-600 transition"
               target="_blank"
@@ -54,7 +54,7 @@ const Footer: React.FC = () => {
               <LinkedinSquare size={18} />
             </motion.a>
             <motion.a
-              href="mailto:your.email@example.com"
+              href="mailto:avip921@gmail.com"
               whileHover={{ scale: 1.1 }}
               className="p-2 bg-accent rounded-lg text-secondary hover:text-primary-600 transition"
             >

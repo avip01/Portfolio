@@ -1,10 +1,16 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 
 const SpaceBackground: React.FC = () => {
   const [stars, setStars] = useState<Array<{ id: number; x: number; y: number; size: string; delay: number }>>([]);
-  const [comets, setComets] = useState<Array<{ id: number; direction: string; startPosition: { top?: string; left?: string }; delay: number }>>([]);
+  const [comet, setComet] = useState<
+    { id: number; direction: 'leftToRight' | 'rightToLeft'; yStart: number; yEnd: number; angle: number; delay: number } | null
+  >(null);
   const [nebulas, setNebulas] = useState<Array<{ id: number; x: number; y: number; type: string; delay: number }>>([]);
   const [dustParticles, setDustParticles] = useState<Array<{ id: number; x: number; delay: number }>>([]);
+  const cometId = useRef(0);
+  const containerRef = useRef<HTMLDivElement>(null);
+  const hasSpawnedInitially = useRef(false);
+  const animationDurationMs = 8000; // must match CSS keyframes duration
 
   useEffect(() => {
     // Generate natural star distribution
@@ -12,46 +18,24 @@ const SpaceBackground: React.FC = () => {
     for (let i = 0; i < 180; i++) {
       const randomValue = Math.random() * 100;
       let size = 'small';
-      
-      // Natural distribution: 60% small, 30% medium, 10% large
       if (randomValue < 60) size = 'small';
       else if (randomValue < 90) size = 'medium';
       else size = 'large';
-
       starArray.push({
         id: i,
         x: Math.random() * 100,
         y: Math.random() * 100,
         size,
-        delay: Math.random() * 6 // Randomized twinkling
+        delay: Math.random() * 6
       });
     }
     setStars(starArray);
-
-    // Generate random comet directions (left or right only)
-    const cometArray = [];
-    for (let i = 0; i < 2; i++) {
-      const directions = ['leftToRight', 'rightToLeft'];
-      const direction = directions[Math.floor(Math.random() * directions.length)];
-      
-      // Set random starting height for horizontal movement
-      const startPosition = { top: Math.random() * 80 + 10 + '%' }; // Random height 10-90%
-      
-      cometArray.push({
-        id: i,
-        direction,
-        startPosition,
-        delay: Math.random() * 20 + i * 15 // Cinematic timing
-      });
-    }
-    setComets(cometArray);
 
     // Generate high-resolution nebulas
     const nebulaArray = [];
     for (let i = 0; i < 5; i++) {
       const types = ['type1', 'type2', 'type3'];
       const type = types[Math.floor(Math.random() * types.length)];
-      
       nebulaArray.push({
         id: i,
         x: Math.random() * 100,
@@ -74,8 +58,59 @@ const SpaceBackground: React.FC = () => {
     setDustParticles(dustArray);
   }, []);
 
+  // Helper to create and set a new comet
+  const spawnComet = () => {
+    if (!containerRef.current) return;
+    const height = containerRef.current.offsetHeight;
+    const width = containerRef.current.offsetWidth;
+    const yStart = Math.floor(Math.random() * height); // 0% - 100%
+    const yEnd = Math.floor((Math.random() * 0.8 + 0.1) * height); // 10%-90%
+    const direction: 'leftToRight' | 'rightToLeft' = Math.random() < 0.5 ? 'leftToRight' : 'rightToLeft';
+
+    const dx = direction === 'leftToRight' ? width : -width;
+    const dy = yEnd - yStart;
+    const angleRad = Math.atan2(dy, dx);
+    const angleDeg = angleRad * (180 / Math.PI);
+
+    setComet({
+      id: cometId.current++,
+      direction,
+      yStart,
+      yEnd,
+      angle: angleDeg,
+      delay: 0
+    } as const);
+  };
+
+  // Comet lifecycle: play once for 8s, then wait 1–4s before spawning the next
+  useEffect(() => {
+    let timeout: NodeJS.Timeout | undefined;
+    if (!containerRef.current) return;
+
+    if (!comet) {
+      if (!hasSpawnedInitially.current) {
+        hasSpawnedInitially.current = true;
+        spawnComet(); // first comet spawns immediately
+      } else {
+        const gapMs = (Math.floor(Math.random() * 4) + 1) * 1000; // 1-4s
+        timeout = setTimeout(() => {
+          spawnComet();
+        }, gapMs);
+      }
+    } else {
+      // Remove comet after it finishes its animation
+      timeout = setTimeout(() => {
+        setComet(null);
+      }, animationDurationMs);
+    }
+
+    return () => {
+      if (timeout) clearTimeout(timeout);
+    };
+  }, [comet]);
+
   return (
-    <div className="space-background">
+    <div className="space-background" ref={containerRef}>
       {/* Stars with natural distribution */}
       <div className="stars">
         {stars.map((star) => (
@@ -91,17 +126,21 @@ const SpaceBackground: React.FC = () => {
         ))}
       </div>
 
-      {/* Random direction comets */}
-      {comets.map((comet) => (
+      {/* Single random comet */}
+      {comet && (
         <div
-          key={comet.id}
+          key={`${comet.id}-${comet.yStart}-${comet.yEnd}`}
           className={`comet ${comet.direction}`}
           style={{
             animationDelay: `${comet.delay}s`,
-            ...comet.startPosition
-          }}
-        />
-      ))}
+            '--comet-y-start': `${comet.yStart}px`,
+            '--comet-y-end': `${comet.yEnd}px`,
+            '--comet-angle': `${comet.angle}deg`
+          } as React.CSSProperties}
+        >
+          <div className="comet-tail" />
+        </div>
+      )}
 
       {/* High-resolution nebulas */}
       {nebulas.map((nebula) => (

@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useEffect, useState } from 'react';
-import { Theme, ThemeContextType } from '../types';
+import { Theme, ThemeContextType } from '../types/index';
 
 const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
 
@@ -29,7 +29,7 @@ export const ThemeProvider: React.FC<ThemeProviderProps> = ({ children }) => {
   }, [theme]);
 
   const toggleTheme = () => {
-    setTheme(prevTheme => prevTheme === 'light' ? 'dark' : 'light');
+    setTheme((prevTheme: Theme) => prevTheme === 'light' ? 'dark' : 'light');
   };
 
   return (

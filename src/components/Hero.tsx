@@ -1,5 +1,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
+import AviPhoto from '../assets/Avi.png';
 
 const Hero: React.FC = () => {
   const scrollToSection = (id: string) => {
@@ -28,15 +29,22 @@ const Hero: React.FC = () => {
             transition={{ duration: 0.8 }}
             className="fade-in text-center"
           >
-            {/* Circular Photo Placeholder */}
+            {/* Circular Photo */}
             <motion.div
               initial={{ opacity: 0, scale: 0.8 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ duration: 0.8, delay: 0.1 }}
               className="mb-8 flex justify-center"
             >
-              <div className="w-64 h-64 bg-card border-2 border-pink-100 rounded-full flex items-center justify-center shadow-sm">
-                <span className="text-6xl font-medium text-secondary">AP</span>
+              <div
+                className="bg-card border-2 border-pink-100 rounded-full flex items-center justify-center shadow-sm overflow-hidden"
+                style={{ width: '180px', height: '180px' }}
+              >
+                <img
+                  src={AviPhoto}
+                  alt="Avi Patel"
+                  style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                />
               </div>
             </motion.div>
             

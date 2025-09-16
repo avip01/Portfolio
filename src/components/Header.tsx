@@ -1,11 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { Moon, Sun } from 'lucide-react';
-import { useTheme } from '../context/ThemeContext';
 
 const Header: React.FC = () => {
   const [isScrolled, setIsScrolled] = useState(false);
-  const { theme, toggleTheme } = useTheme();
 
   const navigationItems = [
     { name: 'Experience', href: '#experience' },
@@ -25,7 +22,12 @@ const Header: React.FC = () => {
   const scrollToSection = (href: string) => {
     const element = document.querySelector(href);
     if (element) {
-      element.scrollIntoView({ behavior: 'smooth' });
+      const offset = href === '#projects' ? 5 : 0;
+      const elementPosition = element.getBoundingClientRect().top + window.pageYOffset;
+      window.scrollTo({
+        top: elementPosition + offset,
+        behavior: 'smooth'
+      });
     }
   };
 
@@ -70,24 +72,8 @@ const Header: React.FC = () => {
             ))}
           </motion.div>
 
-          {/* Right - Dark Mode Only */}
-          <div className="justify-self-end">
-            <motion.button
-              initial={{ opacity: 0, x: 20 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.5, delay: 0.6 }}
-              onClick={toggleTheme}
-              whileHover={{ 
-                scale: 1.1,
-                transition: { duration: 0.2 }
-              }}
-              whileTap={{ scale: 0.9 }}
-              className="p-2 bg-accent rounded-lg text-primary hover:text-primary-600 transition"
-              aria-label="Toggle dark mode"
-            >
-              {theme === 'dark' ? <Sun size={18} /> : <Moon size={18} />}
-            </motion.button>
-          </div>
+          {/* Right - Empty placeholder to keep grid alignment */}
+          <div className="justify-self-end" />
         </div>
       </nav>
     </header>

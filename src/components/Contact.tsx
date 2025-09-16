@@ -20,19 +20,19 @@ const Contact: React.FC = () => {
     {
       icon: Mail,
       label: 'Email',
-      href: 'mailto:avi@example.com',
-      text: 'avi@example.com'
+      href: 'mailto:avip921@gmail.com',
+      text: 'avip921@gmail.com'
     },
     {
       icon: LinkedinSquare,
       label: 'LinkedIn',
-      href: 'https://linkedin.com/in/yourprofile',
+      href: 'https://linkedin.com/in/arpatel2004',
       text: 'LinkedIn'
     },
     {
       icon: Github,
       label: 'GitHub',
-      href: 'https://github.com/yourprofile',
+      href: 'https://github.com/avip01',
       text: 'GitHub'
     }
   ];
@@ -50,7 +50,7 @@ const Contact: React.FC = () => {
           <h2 className="heading-lg mb-8">Let's Connect</h2>
           
           <p className="text-xl mb-8 max-w-2xl mx-auto text-secondary">
-            Open to internships, collaborations, and building cool stuff
+            Open to new opportunties!
           </p>
           
           <div className="contact-links">
@@ -80,7 +80,7 @@ const Contact: React.FC = () => {
             className="mt-16 pt-8 border-t border-light text-center"
           >
             <p className="text-sm text-muted">
-              © 2024 Avi Patel. Built with React & TypeScript.
+              © 2025 Avi Patel. Built with React & TypeScript.
             </p>
           </motion.div>
         </motion.div>
